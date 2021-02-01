@@ -85,10 +85,14 @@ class SubprocVecEnv:
         self.n_envs = n_envs
 
     def _step_or_reset(self, command, actions=None):
+        print('_step_or_reset')
         actions = actions or [None] * self.n_envs
+        print('actions', actions)
         for remote, action in zip(self.remotes, actions):
+            print((command, action))
             remote.send((command, action))
         timesteps = [remote.recv() for remote in self.remotes]
+        print('timesteps', timesteps)
         return timesteps
 
     def step(self, actions):

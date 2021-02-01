@@ -94,7 +94,7 @@ def main():
 
     tf.reset_default_graph()
     sess = tf.Session()
-
+    print('--- BEFORE ActorCriticAgent DECLARATION ---')
     agent = ActorCriticAgent(
         mode=FLAGS.agent_mode,
         sess=sess,
@@ -109,6 +109,7 @@ def main():
         max_gradient_norm=FLAGS.max_gradient_norm
     )
 
+    print('--- BEFORE agent.build_model() ---')
     agent.build_model()
     if os.path.exists(full_chekcpoint_path):
         agent.load(full_chekcpoint_path)
@@ -128,7 +129,7 @@ def main():
         )
     else:
         ppo_par = None
-
+    print('--- BEFORE Runner DECLARATION ---')
     runner = Runner(
         envs=envs,
         agent=agent,
@@ -137,16 +138,16 @@ def main():
         do_training=FLAGS.training,
         ppo_par=ppo_par
     )
-
+    print('--- BEFORE Runner reset ---')
     runner.reset()
-
+    print('--- AFTER Runner reset ---')
     if FLAGS.K_batches >= 0:
         n_batches = FLAGS.K_batches * 1000
     else:
         n_batches = -1
 
     i = 0
-
+    print('--- BEFORE LÖÖP ---')
     try:
         while True:
             if i % 500 == 0:
